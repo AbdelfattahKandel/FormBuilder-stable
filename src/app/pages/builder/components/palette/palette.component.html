@@ -1,0 +1,21 @@
+<div class="p-4">
+  <h2 class="text-lg font-bold text-gray-900 mb-4">Form Controls</h2>
+  <p class="text-xs text-gray-500 mb-4">Drag controls to the canvas</p>
+
+  <div cdkDropList [cdkDropListData]="tools" id="palette-list" [cdkDropListConnectedTo]="['canvas-list']" class="space-y-2">
+    @for (tool of tools; track tool.type) {
+      <div
+        cdkDrag
+        [cdkDragData]="tool"
+        class="flex items-center gap-3 p-3 bg-white border border-gray-200 rounded-lg cursor-move hover:border-blue-400 hover:shadow-md transition-all"
+      >
+        <i [class]="'pi ' + tool.icon + ' text-blue-600 text-xl'"></i>
+        <div class="flex-1">
+          <p class="font-medium text-sm text-gray-900">{{ tool.label }}</p>
+          <p class="text-xs text-gray-500">{{ tool.description }}</p>
+        </div>
+        <i class="pi pi-arrows-alt text-gray-400"></i>
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,182 @@
+<div class="relative min-h-screen overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
+  <!-- Background Effects -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute -top-40 -right-40 h-[500px] w-[500px] rounded-full bg-gradient-to-br from-blue-600/20 to-indigo-600/20 blur-3xl animate-pulse"></div>
+    <div class="absolute -bottom-40 -left-40 h-[500px] w-[500px] rounded-full bg-gradient-to-tr from-purple-600/20 to-pink-600/20 blur-3xl animate-pulse" style="animation-delay: 2s;"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[600px] w-[600px] rounded-full bg-gradient-to-r from-cyan-600/10 to-blue-600/10 blur-3xl" style="animation: float 12s ease-in-out infinite;"></div>
+    <div class="absolute inset-0 bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]"></div>
+  </div>
+
+  <div class="relative z-10 min-h-screen flex items-center justify-center p-4">
+    <div class="max-w-4xl w-full">
+      <!-- Hero Section -->
+      <div class="text-center mb-12">
+        <h1 class="text-6xl md:text-7xl font-black mb-6 tracking-tight animate-slide-up">
+          <span class="bg-gradient-to-r from-slate-100 via-slate-300 to-slate-100 bg-clip-text text-transparent">
+            Welcome to
+          </span>
+          <br />
+          <span class="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent animate-pulse">
+            Formify
+          </span>
+        </h1>
+        <p class="text-slate-300 text-xl md:text-2xl max-w-2xl mx-auto mb-4 leading-relaxed font-medium animate-slide-up delay-100">
+          Build smart, flexible, and beautiful forms
+        </p>
+        <p class="text-slate-400 text-lg max-w-xl mx-auto mb-12 leading-relaxed animate-slide-up delay-200">
+          Your way, powered by Angular & modern UI magic <i class="pi pi-sparkles"></i>
+        </p>
+      </div>
+
+      <!-- Stepper -->
+      <div class="flex items-center justify-center mb-12 animate-fade-in delay-300">
+        <div class="flex items-center gap-4">
+          <!-- Step 1 -->
+          <div class="flex items-center gap-3">
+            <div class="flex flex-col items-center">
+              <div 
+                [class]="'flex items-center justify-center w-12 h-12 rounded-full text-white font-bold text-lg shadow-lg transition-all ' + 
+                (currentStep() >= 1 ? 'bg-gradient-to-r from-blue-500 to-indigo-500' : 'bg-slate-300')"
+              >
+                @if (_forPreferencesForm.get('styleChoice')?.value) {
+                  <i class="pi pi-check"></i>
+                } @else {
+                  1
+                }
+              </div>
+              <span [class]="'text-sm font-medium mt-2 transition-colors ' + (currentStep() === 1 ? 'text-blue-400' : 'text-slate-400')">Style Framework</span>
+            </div>
+          </div>
+
+          <!-- Connector -->
+          <div 
+            [class]="'w-24 h-1 rounded-full transition-all ' + 
+            (currentStep() >= 2 ? 'bg-gradient-to-r from-blue-500 to-purple-500' : 'bg-slate-300')"
+          ></div>
+
+          <!-- Step 2 -->
+          <div class="flex items-center gap-3">
+            <div class="flex flex-col items-center">
+              <div 
+                [class]="'flex items-center justify-center w-12 h-12 rounded-full text-white font-bold text-lg shadow-lg transition-all ' + 
+                (currentStep() >= 2 ? 'bg-gradient-to-r from-purple-500 to-pink-500' : 'bg-slate-300')"
+              >
+                @if (_forPreferencesForm.get('uiKitChoice')?.value) {
+                  <i class="pi pi-check"></i>
+                } @else {
+                  2
+                }
+              </div>
+              <span [class]="'text-sm font-medium mt-2 transition-colors ' + (currentStep() === 2 ? 'text-purple-400' : 'text-slate-400')">UI Kit</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <form [formGroup]="_forPreferencesForm" (ngSubmit)="onStartBuilding()" class="space-y-8">
+      <!-- Style Framework Selection -->
+      @if (currentStep() === 1) {
+      <div class="bg-slate-800/80 backdrop-blur-sm rounded-2xl shadow-xl border border-slate-700 p-8 mb-8 animate-scale-in delay-400">
+        <h2 class="text-2xl font-bold text-slate-100 mb-6 flex items-center gap-3">
+          <span class="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 text-white font-bold">1</span>
+          Choose Style Framework
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          @for (option of styleOptions; track option.value) {
+            <label
+              [class]="
+                'flex flex-col items-center p-6 border-2 rounded-xl cursor-pointer transition-all hover:shadow-lg hover:scale-105 ' +
+                (_forPreferencesForm.get('styleChoice')?.value === option.value
+                  ? 'border-blue-400 bg-gradient-to-br from-blue-900/50 to-indigo-900/50 shadow-md shadow-blue-500/20'
+                  : 'border-slate-600 hover:border-blue-400 bg-slate-700/50')
+              "
+            >
+              <i [class]="option.icon + ' text-5xl mb-3 text-blue-400'"></i>
+              <span class="font-bold text-lg mb-2 text-slate-100">{{ option.label }}</span>
+              <span class="text-sm text-slate-400 text-center mb-4">{{ option.description }}</span>
+              <p-radioButton
+                [value]="option.value"
+                formControlName="styleChoice"
+              ></p-radioButton>
+            </label>
+          }
+        </div>
+        
+        <!-- Next Button -->
+        <div class="flex justify-end mt-6">
+          <button
+            type="button"
+            (click)="currentStep.set(2)"
+            [disabled]="!_forPreferencesForm.get('styleChoice')?.value"
+            class="flex items-center gap-2 px-8 py-3 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+          >
+            <span>Next</span>
+            <i class="pi pi-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+      }
+
+      <!-- UI Kit Selection -->
+      @if (currentStep() === 2) {
+      <div class="bg-slate-800/80 backdrop-blur-sm rounded-2xl shadow-xl border border-slate-700 p-8 mb-8 animate-scale-in">
+        <h2 class="text-2xl font-bold text-slate-100 mb-6 flex items-center gap-3">
+          <span class="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold">2</span>
+          Choose UI Kit
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          @for (option of uiKitOptions; track option.value) {
+            <label
+              [class]="
+                'flex flex-col items-center p-6 border-2 rounded-xl cursor-pointer transition-all hover:shadow-lg hover:scale-105 ' +
+                (_forPreferencesForm.get('uiKitChoice')?.value === option.value
+                  ? 'border-purple-400 bg-gradient-to-br from-purple-900/50 to-pink-900/50 shadow-md shadow-purple-500/20'
+                  : 'border-slate-600 hover:border-purple-400 bg-slate-700/50')
+              "
+            >
+              <i [class]="option.icon + ' text-5xl mb-3 text-purple-400'"></i>
+              <span class="font-bold text-lg mb-2 text-slate-100">{{ option.label }}</span>
+              <span class="text-sm text-slate-400 text-center mb-4">{{ option.description }}</span>
+              <p-radioButton
+                [value]="option.value"
+                formControlName="uiKitChoice"
+              ></p-radioButton>
+            </label>
+          }
+        </div>
+        
+        <!-- Navigation Buttons -->
+        <div class="flex justify-between mt-6">
+          <button
+            type="button"
+            (click)="currentStep.set(1)"
+            class="flex items-center gap-2 px-6 py-3 rounded-full border-2 border-slate-600 bg-slate-700 text-slate-200 font-semibold hover:border-slate-500 hover:bg-slate-600 transition-all cursor-pointer"
+          >
+            <i class="pi pi-arrow-left"></i>
+            <span>Back</span>
+          </button>
+          
+          <button
+            type="submit"
+            [disabled]="_forPreferencesForm.invalid || isLoading()"
+            class="flex items-center gap-2 px-8 py-3 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold shadow-lg shadow-purple-500/20 hover:shadow-purple-500/40 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+          >
+            @if (isLoading()) {
+              <i class="pi pi-spin pi-spinner"></i>
+            }
+            <span>Start Building</span>
+            <i class="pi pi-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+      }
+    </form>
+  </div>
+  </div>
+
+  <!-- Bottom Text -->
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2 text-sm text-slate-400 pointer-events-none">
+    <i class="pi pi-sparkles"></i>
+    <span>Quick & Easy Setup</span>
+  </div>
+</div>

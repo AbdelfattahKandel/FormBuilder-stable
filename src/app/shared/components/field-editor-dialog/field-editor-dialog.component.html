@@ -1,0 +1,240 @@
+<form [formGroup]="_forFieldForm" (ngSubmit)="onSave()" class="space-y-8">
+  <!-- Basic Information -->
+  <div class="space-y-4 rounded-2xl border border-slate-200 bg-white/80 p-5 shadow-sm">
+    <div class="flex items-center justify-between">
+      <div>
+        <h3 class="text-base font-semibold text-slate-900">Basic Information</h3>
+        <p class="text-xs text-slate-500">Configure the essential metadata for this field.</p>
+      </div>
+      <span class="inline-flex items-center justify-center rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">Required *</span>
+    </div>
+
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <div class="space-y-2">
+        <label for="label" class="text-sm font-semibold text-slate-700">Label</label>
+        <input
+          id="label"
+          type="text"
+          formControlName="label"
+          class="w-full rounded-xl border border-slate-300 bg-white px-4 py-2 text-slate-900 shadow-inner transition-all focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+          placeholder="Enter field label"
+        />
+      </div>
+
+      <div class="space-y-2">
+        <label for="formControlName" class="text-sm font-semibold text-slate-700">Form Control Name</label>
+        <input
+          id="formControlName"
+          type="text"
+          formControlName="formControlName"
+          class="w-full rounded-xl border border-slate-300 bg-white px-4 py-2 text-slate-900 shadow-inner transition-all focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+          placeholder="Enter control name"
+        />
+      </div>
+
+      <div class="space-y-2">
+        <label for="type" class="text-sm font-semibold text-slate-700">Field Type</label>
+        <div class="relative">
+          <select
+            id="type"
+            formControlName="type"
+            class="w-full appearance-none rounded-xl border border-slate-300 bg-white px-4 py-2 pr-12 text-slate-900 shadow-inner transition-all focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+          >
+            <option value="" disabled>Select field type</option>
+            @for (type of fieldTypes; track type.value) {
+              <option [value]="type.value">{{ type.label }}</option>
+            }
+          </select>
+          <i class="pi pi-chevron-down pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+        </div>
+      </div>
+
+      <div class="space-y-2">
+        <label for="placeholder" class="text-sm font-semibold text-slate-700">Placeholder</label>
+        <input
+          id="placeholder"
+          type="text"
+          formControlName="placeholder"
+          class="w-full rounded-xl border border-slate-300 bg-white px-4 py-2 text-slate-900 shadow-inner transition-all focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+          placeholder="Enter placeholder"
+        />
+      </div>
+    </div>
+
+    <!-- Options (for select, multi-select, radio) -->
+    @if (needsOptions()) {
+      <div class="space-y-2">
+        <label for="options" class="text-sm font-semibold text-slate-700">
+          Options <span class="text-xs font-normal text-slate-500">(one per line, format: Label:Value)</span>
+        </label>
+        <textarea
+          id="options"
+          [value]="optionsText()"
+          (input)="optionsText.set($any($event.target).value)"
+          rows="4"
+          class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 shadow-inner transition-all focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+          placeholder="Option 1:option1&#10;Option 2:option2"
+        ></textarea>
+      </div>
+    }
+  </div>
+
+  <!-- Layout Settings -->
+  <div class="space-y-4 rounded-2xl border border-slate-200 bg-white/80 p-5 shadow-sm">
+    <h3 class="text-base font-semibold text-slate-900">Layout</h3>
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <div class="space-y-2">
+        <label for="columns" class="text-sm font-semibold text-slate-700">Grid Columns</label>
+        <div class="relative">
+          <select
+            id="columns"
+            formControlName="columns"
+            class="w-full appearance-none rounded-xl border border-slate-300 bg-white px-4 py-2 pr-12 text-slate-900 shadow-inner transition-all focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+          >
+            <option value="" disabled>Select columns</option>
+            @for (option of columnOptions; track option.value) {
+              <option [value]="option.value">{{ option.label }}</option>
+            }
+          </select>
+          <i class="pi pi-chevron-down pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+        </div>
+      </div>
+
+      <div class="space-y-2">
+        <span class="text-sm font-semibold text-slate-700">Field Flags</span>
+        <div class="flex flex-wrap items-center gap-4 rounded-xl border border-slate-200 bg-slate-50/60 px-4 py-3">
+          <label class="flex items-center gap-2 text-sm text-slate-700" for="required">
+            <input
+              id="required"
+              type="checkbox"
+              formControlName="required"
+              class="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+            />
+            <span>Required</span>
+          </label>
+          <label class="flex items-center gap-2 text-sm text-slate-700" for="disabled">
+            <input
+              id="disabled"
+              type="checkbox"
+              formControlName="disabled"
+              class="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+            />
+            <span>Disabled</span>
+          </label>
+          <label class="flex items-center gap-2 text-sm text-slate-700" for="readonly">
+            <input
+              id="readonly"
+              type="checkbox"
+              formControlName="readonly"
+              class="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+            />
+            <span>Readonly</span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Button Properties (for submit button) -->
+  @if (isSubmitButton()) {
+    <div class="space-y-4 rounded-2xl border border-slate-200 bg-indigo-50/70 p-5 shadow-sm">
+      <div class="flex items-center justify-between">
+        <h3 class="text-base font-semibold text-slate-900">Button Appearance</h3>
+        <span class="text-xs font-medium text-indigo-600">Submit specific</span>
+      </div>
+
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div class="space-y-2">
+          <label for="buttonAction" class="text-sm font-semibold text-slate-700">Button Action</label>
+          <input
+            id="buttonAction"
+            type="text"
+            formControlName="buttonAction"
+            class="w-full rounded-xl border border-slate-300 bg-white px-4 py-2 text-slate-900 shadow-inner transition-all focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+            placeholder="Enter button action (e.g., submit, save)"
+          />
+        </div>
+
+        <div class="space-y-2">
+          <label for="buttonIcon" class="text-sm font-semibold text-slate-700">Button Icon</label>
+          <input
+            id="buttonIcon"
+            type="text"
+            formControlName="buttonIcon"
+            class="w-full rounded-xl border border-slate-300 bg-white px-4 py-2 text-slate-900 shadow-inner transition-all focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+            placeholder="e.g., pi pi-check, pi pi-save"
+          />
+          <small class="text-xs text-slate-500">PrimeIcons class name</small>
+        </div>
+
+        <div class="space-y-2">
+          <label for="buttonIconPos" class="text-sm font-semibold text-slate-700">Icon Position</label>
+          <div class="relative">
+            <select
+              id="buttonIconPos"
+              formControlName="buttonIconPos"
+              class="w-full appearance-none rounded-xl border border-slate-300 bg-white px-4 py-2 pr-12 text-slate-900 shadow-inner transition-all focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+            >
+              @for (option of iconPositionOptions; track option.value) {
+                <option [value]="option.value">{{ option.label }}</option>
+              }
+            </select>
+            <i class="pi pi-chevron-down pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <label for="buttonSize" class="text-sm font-semibold text-slate-700">Button Size</label>
+          <div class="relative">
+            <select
+              id="buttonSize"
+              formControlName="buttonSize"
+              class="w-full appearance-none rounded-xl border border-slate-300 bg-white px-4 py-2 pr-12 text-slate-900 shadow-inner transition-all focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+            >
+              @for (option of buttonSizeOptions; track option.value) {
+                <option [value]="option.value">{{ option.label }}</option>
+              }
+            </select>
+            <i class="pi pi-chevron-down pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <label for="buttonSeverity" class="text-sm font-semibold text-slate-700">Button Color</label>
+          <div class="relative">
+            <select
+              id="buttonSeverity"
+              formControlName="buttonSeverity"
+              class="w-full appearance-none rounded-xl border border-slate-300 bg-white px-4 py-2 pr-12 text-slate-900 shadow-inner transition-all focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+            >
+              @for (option of buttonSeverityOptions; track option.value) {
+                <option [value]="option.value">{{ option.label }}</option>
+              }
+            </select>
+            <i class="pi pi-chevron-down pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- Actions -->
+  <div class="flex justify-end gap-3 pr-6 mb-6">
+    <button
+      type="button"
+      (click)="onCancel()"
+      class="flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 transition-all hover:border-slate-400 hover:bg-slate-50"
+    >
+      <i class="pi pi-times"></i>
+      <span>Cancel</span>
+    </button>
+    <button
+      type="submit"
+      [disabled]="_forFieldForm.invalid"
+      class="flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-blue-500/20 transition-all hover:from-blue-700 hover:to-indigo-700 hover:shadow-blue-500/40 disabled:cursor-not-allowed disabled:opacity-50"
+    >
+      <i class="pi pi-check"></i>
+      <span>Save</span>
+    </button>
+  </div>
+</form>

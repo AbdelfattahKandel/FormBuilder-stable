@@ -1,0 +1,72 @@
+<div class="field-renderer" [class]="field().class" [formGroup]="previewForm">
+  <!-- Field Preview based on type with FormGroup -->
+  @switch (field().type) { @case ('input-text') { @if (isNativeLibrary()) {
+  <app-native-inputtext [field]="field()" />
+  } @else {
+  <app-inputtext [field]="field()" />
+  } } @case ('password') { @if (isNativeLibrary()) {
+  <app-native-password [field]="field()" />
+  } @else {
+  <app-password [field]="field()" />
+  } } @case ('input-number') { @if (isNativeLibrary()) {
+  <app-native-inputnumber [field]="field()" />
+  } @else {
+  <app-inputnumber [field]="field()" />
+  } } @case ('textarea') { @if (isNativeLibrary()) {
+  <app-native-textarea [field]="field()" />
+  } @else {
+  <app-textarea [field]="field()" />
+  } } @case ('select') { @if (isNativeLibrary()) {
+  <app-native-select [field]="field()" />
+  } @else {
+  <app-select [field]="field()" />
+  } } @case ('multi-select') { @if (isNativeLibrary()) {
+  <app-native-multiselect [field]="field()" />
+  } @else {
+  <app-multiselect [field]="field()" />
+  } } @case ('checkbox') { @if (isNativeLibrary()) {
+  <app-native-checkbox [field]="field()" />
+  } @else {
+  <app-checkbox [field]="field()" />
+  } } @case ('radio') { @if (isNativeLibrary()) {
+  <app-native-radiobutton [field]="field()" />
+  } @else {
+  <app-radiobutton [field]="field()" />
+  } } @case ('datepicker') { @if (isNativeLibrary()) {
+  <app-native-datepicker [field]="field()" />
+  } @else {
+  <app-datepicker [field]="field()" />
+  } } @case ('attachment') { @if (isNativeLibrary()) {
+  <app-native-attachment [field]="field()" />
+  } @else {
+  <app-attachment [field]="field()" />
+  } } @case ('array') {
+  <app-array-field-editor
+    [field]="field()"
+    (fieldUpdated)="onArrayFieldUpdated($event)"
+  ></app-array-field-editor>
+  } @case ('submit') {
+  <button
+    type="button"
+    [disabled]="true"
+    class="w-full px-4 py-2 bg-blue-500 text-white rounded-md font-medium"
+  >
+    {{ field().label }}
+  </button>
+  } @default {
+  <div class="text-sm text-gray-500">
+    Unknown field type: {{ field().type }}
+  </div>
+  } }
+
+  <!-- Field Info -->
+  <div class="text-xs text-gray-400 space-y-1">
+    <p>
+      Type:
+      <span class="font-mono">{{ field().type.replaceAll("input-", "") }}</span>
+    </p>
+    <p>
+      ControlName: <span class="font-mono">{{ field().formControlName }}</span>
+    </p>
+  </div>
+</div>

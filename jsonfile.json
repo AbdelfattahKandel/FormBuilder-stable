@@ -1,0 +1,39 @@
+{
+  "styleFramework": "tailwind",
+  "forms": {
+    "Login": {
+      "containerClass": "container grid grid-cols-4 gap-1 p-2 bg-white border border-slate-200 rounded-lg shadow-sm max-w-screen mx-auto",
+      "controls": [
+        {
+              "fieldType": "input-text",
+              "value": "",
+              "label": "Text Input",
+              "placeholder": "Enter text input",
+              "validators": [],
+              "required": true,
+              "disabled": false,
+              "readonly": false,
+              "formControlName": "input-text_1760701606660",
+              "class": "col-span-2 w-full"
+            }
+      ]
+    },
+    "Register": {
+      "containerClass": "container grid grid-cols-4 gap-1 p-2 bg-white border border-slate-200 rounded-lg shadow-sm max-w-screen mx-auto",
+      "controls": [
+        {
+          "fieldType": "input-text",
+          "value": "",
+          "label": "Text Input",
+          "placeholder": "Enter text input",
+          "validators": [],
+          "required": true,
+          "disabled": false,
+          "readonly": false,
+          "formControlName": "input-text_1760701606660",
+          "class": "col-span-2 w-full"
+        }
+      ]
+    }
+  }
+}

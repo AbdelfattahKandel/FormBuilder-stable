@@ -1,0 +1,112 @@
+<div class="space-y-4">
+  <!-- Array Label -->
+  @if (arrayField().label) {
+    <h3 class="text-lg font-semibold text-gray-900">{{ arrayField().label }}</h3>
+  }
+
+  <!-- Array Items -->
+  @for (item of getFormArray().controls; track $index) {
+    <div class="border border-gray-300 rounded-lg p-4 bg-white" [formGroup]="$any(item)">
+      <div class="flex justify-between items-center mb-3">
+        <span class="text-sm font-medium text-gray-700">Item {{ $index + 1 }}</span>
+        <button
+          type="button"
+          (click)="removeItem($index)"
+          class="text-red-500 hover:text-red-700"
+        >
+          <i class="pi pi-trash"></i>
+        </button>
+      </div>
+
+      <!-- Render Array Fields -->
+      <div class="grid grid-cols-1 gap-4">
+        @for (field of arrayField().arrayFields || []; track field.id) {
+          <div>
+            @switch (field.type) {
+              @case ('input-text') {
+                @if (isNativeLibrary()) {
+                  <app-native-inputtext [field]="field" />
+                } @else {
+                  <app-inputtext [field]="field" />
+                }
+              }
+              @case ('password') {
+                @if (isNativeLibrary()) {
+                  <app-native-password [field]="field" />
+                } @else {
+                  <app-password [field]="field" />
+                }
+              }
+              @case ('input-number') {
+                @if (isNativeLibrary()) {
+                  <app-native-inputnumber [field]="field" />
+                } @else {
+                  <app-inputnumber [field]="field" />
+                }
+              }
+              @case ('textarea') {
+                @if (isNativeLibrary()) {
+                  <app-native-textarea [field]="field" />
+                } @else {
+                  <app-textarea [field]="field" />
+                }
+              }
+              @case ('select') {
+                @if (isNativeLibrary()) {
+                  <app-native-select [field]="field" />
+                } @else {
+                  <app-select [field]="field" />
+                }
+              }
+              @case ('multi-select') {
+                @if (isNativeLibrary()) {
+                  <app-native-multiselect [field]="field" />
+                } @else {
+                  <app-multiselect [field]="field" />
+                }
+              }
+              @case ('checkbox') {
+                @if (isNativeLibrary()) {
+                  <app-native-checkbox [field]="field" />
+                } @else {
+                  <app-checkbox [field]="field" />
+                }
+              }
+              @case ('radio') {
+                @if (isNativeLibrary()) {
+                  <app-native-radiobutton [field]="field" />
+                } @else {
+                  <app-radiobutton [field]="field" />
+                }
+              }
+              @case ('datepicker') {
+                @if (isNativeLibrary()) {
+                  <app-native-datepicker [field]="field" />
+                } @else {
+                  <app-datepicker [field]="field" />
+                }
+              }
+              @case ('attachment') {
+                @if (isNativeLibrary()) {
+                  <app-native-attachment [field]="field" />
+                } @else {
+                  <app-attachment [field]="field" />
+                }
+              }
+            }
+          </div>
+        }
+      </div>
+    </div>
+  }
+
+  <!-- Add Button -->
+  <button
+    type="button"
+    (click)="addItem()"
+    class="w-full px-4 py-2 border-2 border-dashed border-blue-300 rounded-lg text-blue-600 hover:bg-blue-50 transition-colors"
+  >
+    <i class="pi pi-plus-circle mr-2"></i>
+    Add Item
+  </button>
+</div>
