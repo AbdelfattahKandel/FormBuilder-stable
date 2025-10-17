@@ -87,8 +87,13 @@ export class RendererComponent implements OnInit {
     const controlName = field.formControlName || `preview_${field.type}_${Date.now()}`;
     const defaultValue = this.getDefaultValue(field.type);
     
+    const control = new FormControl({
+      value: defaultValue,
+      disabled: field.disabled ?? false,
+    });
+
     this.previewForm = new FormGroup({
-      [controlName]: new FormControl({ value: defaultValue, disabled: true })
+      [controlName]: control,
     });
   }
 
